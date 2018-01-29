@@ -20,6 +20,7 @@ login(model: any) {
     const options = new RequestOptions({headers : headers});
     return this.http.post(this.baseUrl + 'login', model, options).map((response: Response) => {
         const user = response.json();
+
         if (user) {
             localStorage.setItem('token', user.tokenString);
             this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
@@ -45,8 +46,17 @@ private handleError(error: any) {
     if (applicationError) {
       return Observable.throw(applicationError);
     }
-    const serverError = error.json();
+    let test: any;
+    try {
+         test = error.json();
+    } catch {
+        return Observable.throw('Unauthorize user');
+
+    }
+
     let modelStateErrors = '';
+    const  serverError: any = error.json();
+
     if (serverError) {
         for (const key in serverError) {
             if (serverError[key]) {
