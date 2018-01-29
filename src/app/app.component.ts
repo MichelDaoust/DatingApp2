@@ -22,5 +22,3 @@ constructor(private authService: AuthService) {}
     }
   }
 }
-
-}
