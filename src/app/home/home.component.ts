@@ -13,7 +13,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: Http) { }
 
   ngOnInit() {
- 
+
   }
 
   registerToggle() {
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 
 
 
-  cancelRegisterMode(registerMode: boolean){
+  cancelRegisterMode(registerMode: boolean) {
     this.registerMode = registerMode;
   }
 
