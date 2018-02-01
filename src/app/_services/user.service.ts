@@ -33,7 +33,10 @@ export class UserService {
 
     setMainPhoto(userId: number, id: number) {
         return this.authHttp.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {}).catch(this.handleError);
+    }
 
+    deletePhoto(userId: User, photoId: number) {
+        return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + photoId,{}).catch(this.handleError); 
     }
 /*
     private jwt() {
