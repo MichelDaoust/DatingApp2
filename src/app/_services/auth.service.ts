@@ -21,15 +21,15 @@ export class AuthService {
 
   constructor(private http: Http) { }
 
-  changeMemberPhoto(photoUrl: string){
+  changeMemberPhoto(photoUrl: string) {
       this.photoUrl.next(photoUrl);
 
   }
 
-  login(model: any) {
+  login(user: User) {
     const headers = new Headers({'Content-type': 'application/json' });
     const options = new RequestOptions({headers : headers});
-    return this.http.post(this.baseUrl + 'login', model, options).map((response: Response) => {
+    return this.http.post(this.baseUrl + 'login', user, options).map((response: Response) => {
         const user = response.json();
 
         if (user) {
@@ -38,7 +38,11 @@ export class AuthService {
             this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
             this.currentUser = user.user;
             this.userToken = user.tokenString;
-            this.changeMemberPhoto(this.currentUser.photoUrl);
+            if (this.currentUser.photoUrl != null) {
+                this.changeMemberPhoto(this.currentUser.photoUrl);
+            } else {
+              this.changeMemberPhoto('../../assets/user.jpg');
+            }
         }
     }).catch(this.handleError);
 }

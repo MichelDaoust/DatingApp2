@@ -25,7 +25,13 @@ constructor(private authService: AuthService) {}
     }
     if (user) {
       this.authService.currentUser = user;
-      this.authService.changeMemberPhoto(user.photoUrl);
+      if (this.authService.currentUser.photoUrl !== null) {
+        this.authService.changeMemberPhoto(user.photoUrl);
+      } else
+      {
+        this.authService.changeMemberPhoto('../assets/user.jpg');
+      }
+
     }
   }
 }
