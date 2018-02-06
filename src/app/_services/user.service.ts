@@ -16,13 +16,21 @@ export class UserService {
   baseUrl = environment.apiUrl;
     constructor( private authHttp: AuthHttp) { }
 
-    getUsers(page?: number, itemsPerPage?: number, userParams?: UserParams)  {
+    getUsers(page?: number, itemsPerPage?: number, userParams?: UserParams, likesParam?: string )  {
 
         const paginatedResult: PaginatedResult<User[]> = new PaginatedResult <User[]>();
 
         let queryString = '?';
         if (page != null && itemsPerPage != null) {
             queryString += 'pageNumber=' + page + '&pageSize=' + itemsPerPage + '&';
+        }
+
+        if(likesParam === 'Likers'){
+            queryString += 'Likers=true&';
+        }
+
+        if(likesParam === 'Likees'){
+            queryString += 'Likees=true&';
         }
 
         if (userParams != null)
@@ -63,6 +71,10 @@ export class UserService {
     deletePhoto(userId: User, photoId: number) {
         return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + photoId,{}).catch(this.handleError); 
     }
+
+    sendLike(id: number, recipientId: number) {
+        return this.authHttp.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {}).catch(this.handleError);
+    }
 /*
     private jwt() {
         const token = localStorage.getItem('token');
@@ -75,6 +87,9 @@ export class UserService {
 */
 
     private handleError(error: any) {
+        if (error.status === 400) {
+            return Observable.throw(error._body);
+        }
         const applicationError = error.headers.get('Application-Error');
         if (applicationError) {
         return Observable.throw(applicationError);
