@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { AuthHttp } from 'angular2-jwt';
 import { PaginatedResult } from '../_models/Pagination';
+import { UserParams } from '../_models/userParams';
 
 
 @Injectable()
@@ -15,18 +16,27 @@ export class UserService {
   baseUrl = environment.apiUrl;
     constructor( private authHttp: AuthHttp) { }
 
-    getUsers(page?: number, itemsPerPage?: number): Observable<User[]> {
+    getUsers(page?: number, itemsPerPage?: number, userParams?: UserParams)  {
 
         const paginatedResult: PaginatedResult<User[]> = new PaginatedResult <User[]>();
 
         let queryString = '?';
         if (page != null && itemsPerPage != null) {
-            queryString += 'pageNumber=' + page + '&pageSize=' + itemsPerPage;
+            queryString += 'pageNumber=' + page + '&pageSize=' + itemsPerPage + '&';
         }
 
+        if (userParams != null)
+        {
+            queryString +=
+             'minAge=' + userParams.minAge +
+             '&maxAge=' + userParams.maxAge +
+             '&gender=' + userParams.gender +
+             '&orderBy=' + userParams.orderBy;
+        }
         return this.authHttp.get(this.baseUrl + 'users' + queryString)
         .map((response: Response) => {
             paginatedResult.result = response.json();
+
             if (response.headers.get('Pagination') != null) {
                 paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
             }
