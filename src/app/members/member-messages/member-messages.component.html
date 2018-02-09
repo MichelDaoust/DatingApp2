@@ -1,0 +1,41 @@
+<div class="panel panel-primary">
+  <div class="panel-body">
+    <div *ngIf="messages?.length === 0">
+      <p> No message yet.. say hi by using the massage box below</p>
+    </div>
+    <ul class="chat">
+      <li *ngFor="let message of messages">
+        <!-- to them -->
+        <div *ngIf="message.senderId == userId">
+          <span class="chat-img pull-left">
+            <img src="{{message.senderPhotoUrl}}" class="img-circle">
+          </span>
+          <div class="chat-body">
+            <div class="header">
+              <strong class="primary-font">{{message.senderKnownAs}}</strong>
+            </div>
+              <p>{{message.content}}</p>
+          </div>
+        </div> 
+         <!-- to me -->
+
+
+
+      </li>
+
+    </ul>
+
+  </div>
+  <div class="panel-footer">
+    <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
+      <div class="input-group">
+        <input type="text" class="form-control input-sm" 
+        required
+        name="content"
+        [(ngModel)]="newMessage.content"
+        placeholder="send a private message">
+        <span class="input-group-btn"> <button class="btn btn-primary btn-sm" [disabled]="!messageForm.valid">Send</button></span>
+      </div>
+    </form>
+  </div>
+</div>

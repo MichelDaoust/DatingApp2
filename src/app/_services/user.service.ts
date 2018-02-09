@@ -34,8 +34,7 @@ export class UserService {
             queryString += 'Likees=true&';
         }
 
-        if (userParams != null)
-        {
+        if (userParams != null) {
             queryString +=
              'minAge=' + userParams.minAge +
              '&maxAge=' + userParams.maxAge +
@@ -93,6 +92,19 @@ export class UserService {
             return paginatedResult;
             }).catch(this.handleError);
     }
+
+    getMessageThread(id: number, recipientId: number) {
+        return this.authHttp.get(this.baseUrl + 'users/' + id + '/messages/thread/' + recipientId).map((response: Response) => {
+            return response.json();
+        }).catch(this.handleError);
+    }
+
+   sendMessage(id: number, message: Message){
+       return this.authHttp.post(this.baseUrl + 'users/' + id + '/messages', message).map((response: Response) => {
+           return response.json();
+       }).catch(this.handleError);
+   }
+
 
 /*
     private jwt() {

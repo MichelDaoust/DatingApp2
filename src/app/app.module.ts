@@ -34,6 +34,7 @@ import { PhotoEditorComponent } from './members/photo-editor/photo-editor.compon
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import { MessagesResolver } from './_resolvers/message.resolvers';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 
 
 
@@ -48,6 +49,7 @@ import { MessagesResolver } from './_resolvers/message.resolvers';
     MessagesComponent,
     MemberCardComponent,
     MemberDetailComponent,
+    MemberMessagesComponent,
     MemberEditComponent,
     PhotoEditorComponent,
     TimeAgoPipe
