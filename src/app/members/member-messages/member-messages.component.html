@@ -13,11 +13,28 @@
           <div class="chat-body">
             <div class="header">
               <strong class="primary-font">{{message.senderKnownAs}}</strong>
+              <span class="fa fa-clock-o"> {{message.messageSent | timeAgo}}</span>
             </div>
               <p>{{message.content}}</p>
           </div>
         </div> 
-         <!-- to me -->
+        <!-- to me -->
+        <div *ngIf="message.senderId != userId">
+          <span class="chat-img pull-right">
+            <img src="{{message.senderPhotoUrl}}" class="img-circle">
+          </span>
+          <div class="chat-body">
+            <div class="header">
+                <small class="text-muted">
+                    <span class="fa fa-clock-o">{{message.messageSent | timeAgo}}</span>
+                    <span *ngIf="!message.isRead" class="text-muted text-danger">(Unread)</span>
+                    <span *ngIf="message.isRead" class="text-muted text-success">(Read {{message.dateRead | timeAgo}})</span>
+                  </small>
+              <strong class="primary-font pull-right">{{message.senderKnownAs}}</strong>
+            </div>
+            <p>{{message.content}}</p>
+          </div>
+        </div>
 
 
 
